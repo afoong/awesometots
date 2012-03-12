@@ -10,6 +10,7 @@ class MoviesController < ApplicationController
     if params.has_key?("sortBy")
       @movies = Movie.order("#{params[:sortBy]} asc").all
       @isSortedOn = params[:sortBy]
+      # p "#{@movies}"
     else
       @movies = Movie.all
     end

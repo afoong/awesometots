@@ -4,11 +4,11 @@
 %table#movies
   %thead
     %tr
-      %th{:class => (@isSortedOn == 'title' ? "currentSort" : nil)}
+      %th{:class => (@isSortedOn == 'title' ? "hilite" : nil)}
         %a#title_header= link_to "Movie Title", movies_path(@get, 
           :sortBy => 'title')
       %th Rating
-      %th{:class => (@isSortedOn == 'release_date' ? "currentSort" : nil)}
+      %th{:class => (@isSortedOn == 'release_date' ? "hilite" : nil)}
         %a#release_date_header= link_to "Release Date", movies_path(@get, 
           :sortBy => 'release_date')
       %th More Info
