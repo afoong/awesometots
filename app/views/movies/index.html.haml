@@ -5,12 +5,10 @@
   %thead
     %tr
       %th{:class => (@isSortedOn == 'title' ? "hilite" : nil)}
-        %a#title_header= link_to "Movie Title", movies_path(@get, 
-          :sortBy => 'title')
+        =link_to "Movie Title", movies_path(@get, :sortBy => 'title'), :id => 'title_header'
       %th Rating
       %th{:class => (@isSortedOn == 'release_date' ? "hilite" : nil)}
-        %a#release_date_header= link_to "Release Date", movies_path(@get, 
-          :sortBy => 'release_date')
+        =link_to "Release Date", movies_path(@get, :sortBy => 'release_date'), :id => 'release_date_header'
       %th More Info
   %tbody
     - @movies.each do |movie|
