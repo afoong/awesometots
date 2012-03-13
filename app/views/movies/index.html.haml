@@ -5,9 +5,9 @@
   Include: 
   - @all_ratings.each do |rating|
     = rating
-    = check_box_tag "ratings[#{rating}]", 1, @last_ratings.has_key?(rating)
+    = check_box_tag "ratings[#{rating}]", 1, @last_ratings.has_key?(rating), :id => "ratings_#{rating}"
   = hidden_field_tag "sortBy", @isSortedOn
-  = submit_tag 'Refresh'
+  = submit_tag 'Refresh', :id => 'ratings_submit'
 
 %table#movies
   %thead
