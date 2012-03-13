@@ -18,26 +18,38 @@ class MoviesController < ApplicationController
   def index
     # p params
     # @movies = Movie.all
+    session.clear
 
     if params.has_key?("sortBy")
-      @orderStr = "#{params[:sortBy]} asc"
-      @isSortedOn = params[:sortBy]
+      @orderStr = "#{params[:sortBy]}"
+      session[:sortBy] = @isSortedOn = params[:sortBy]
     else
-      @orderStr = @orderStr
-      @isSortedOn = @isSortedOn
+        if session.has_key?("sortBy") 
+          @orderStr = "#{session[:sortBy]}"
+          @isSortedOn = session[:sortBy]
+        else
+          @orderStr = @orderStr
+          @isSortedOn = @isSortedOn
+        end
     end
 
     if params.has_key?("ratings")
       @ratings = params[:ratings].keys
       @last_ratings = params[:ratings]
+      session[:ratings] = @last_ratings = params[:ratings]
     else
-      @ratings = @all_ratings
-      @last_ratings = Hash.new
+        if session.has_key?("ratings") 
+          @ratings = session[:ratings].keys
+          @last_ratings = session[:ratings]
+          @last_ratings = session[:ratings]
+        else
+          @ratings = @all_ratings
+          @last_ratings = Hash.new
+        end
     end
 
     @movies = Movie.order("#{@orderStr}").find(:all, 
       :conditions => ["rating in (?)", @ratings])
-      
 
   end
 
