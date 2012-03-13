@@ -1,4 +1,13 @@
 class MoviesController < ApplicationController
+  @all_ratings
+  @last_ratings
+  @isSortedOn
+  @orderStr
+
+  def initialize
+    super()
+    @all_ratings = Movie.allRatings
+  end
 
   def show
     id = params[:id] # retrieve movie ID from URI route
@@ -7,13 +16,29 @@ class MoviesController < ApplicationController
   end
 
   def index
+    # p params
+    # @movies = Movie.all
+
     if params.has_key?("sortBy")
-      @movies = Movie.order("#{params[:sortBy]} asc").all
+      @orderStr = "#{params[:sortBy]} asc"
       @isSortedOn = params[:sortBy]
-      # p "#{@movies}"
     else
-      @movies = Movie.all
+      @orderStr = @orderStr
+      @isSortedOn = @isSortedOn
     end
+
+    if params.has_key?("ratings")
+      @ratings = params[:ratings].keys
+      @last_ratings = params[:ratings]
+    else
+      @ratings = @all_ratings
+      @last_ratings = Hash.new
+    end
+
+    @movies = Movie.order("#{@orderStr}").find(:all, 
+      :conditions => ["rating in (?)", @ratings])
+      
+
   end
 
   def new
