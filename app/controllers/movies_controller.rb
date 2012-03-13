@@ -18,7 +18,8 @@ class MoviesController < ApplicationController
   def index
     # p params
     # @movies = Movie.all
-    session.clear
+    # session.clear
+    redirParams = Hash.new
 
     if params.has_key?("sortBy")
       @orderStr = "#{params[:sortBy]}"
@@ -31,6 +32,7 @@ class MoviesController < ApplicationController
           @orderStr = @orderStr
           @isSortedOn = @isSortedOn
         end
+        redirParams[:sortBy] = @isSortedOn
     end
 
     if params.has_key?("ratings")
@@ -41,11 +43,15 @@ class MoviesController < ApplicationController
         if session.has_key?("ratings") 
           @ratings = session[:ratings].keys
           @last_ratings = session[:ratings]
-          @last_ratings = session[:ratings]
         else
           @ratings = @all_ratings
           @last_ratings = Hash.new
         end
+        redirParams[:ratings] = @last_ratings
+    end
+
+    if !params.has_key?("ratings") && !params.has_key?("sortBy")
+      redirect_to movies_path(@get, redirParams)
     end
 
     @movies = Movie.order("#{@orderStr}").find(:all, 
